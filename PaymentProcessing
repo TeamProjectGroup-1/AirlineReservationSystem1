@@ -1,0 +1,37 @@
+from cryptography.fernet import Fernet
+
+key = Fernet.generate_key()
+cipher_suite = Fernet(key)
+
+def encrypt_card_number(card_number):
+    #Encrypts the credit card number.
+    return cipher_suite.encrypt(card_number.encode())
+
+def decrypt_card_number(encrypted_card_number):
+    #Decrypts the encrypted credit card number.
+    return cipher_suite.decrypt(encrypted_card_number).decode()
+
+def validate_card_details(card_number, expiration_date, cvv):
+    #Placeholder for card validation logic. Implement as needed.
+    return True  # Implement actual validation logic
+
+def process_payment(card_number, expiration_date, cvv, amount):
+    #Simulates payment processing.
+    if not validate_card_details(card_number, expiration_date, cvv):
+        return False, "Invalid card details"
+    
+    encrypted_card_number = encrypt_card_number(card_number)
+    
+    print(f"Processing payment for amount: ${amount}")
+    
+    
+    return True, "Payment successful"
+
+if __name__ == "__main__":
+    card_number = input("Enter your card number: ")
+    expiration_date = input("Enter expiration date (MM/YY): ")
+    cvv = input("Enter CVV: ")
+    amount = float(input("Enter payment amount: "))
+    
+    success, message = process_payment(card_number, expiration_date, cvv, amount)
+    print(message)
